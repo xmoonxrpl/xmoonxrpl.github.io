@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X-MOON — XRPL Memecoin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --navy: #0a1628;
+    --navy-mid: #0d1f40;
+    --navy-light: #1a2f55;
+    --white: #ffffff;
+    --gray: #8899bb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  #stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle linear infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(201,168,76,0.3)); }
+    50% { filter: drop-shadow(0 0 50px rgba(201,168,76,0.7)); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scroll-ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 10px 28px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* PRICE TICKER */
+  .ticker {
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    z-index: 99;
+    background: rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+    height: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 80px;
+    white-space: nowrap;
+    animation: scroll-ticker 20s linear infinite;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--gold);
+  }
+
+  .ticker-item { display: flex; align-items: center; gap: 8px; }
+  .ticker-item .up { color: #4cff8c; }
+  .ticker-item .label { color: var(--gray); }
+
+  /* HERO */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 130px 40px 40px;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(64px, 10vw, 140px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-shadow: 0 0 60px rgba(201,168,76,0.4);
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .hero-subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(16px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: 14px;
+    color: var(--gold);
+    margin: 12px 0 30px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero-tagline {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--gray);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 50px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .hero-logo-wrap {
+    animation: float 4s ease-in-out infinite, fadeUp 0.8s ease 0.15s both;
+    margin-bottom: 40px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    filter: drop-shadow(0 0 40px rgba(201,168,76,0.7));
+  }
+
+  .hero-logo-wrap img {
+    width: 420px;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-logo-placeholder {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--navy-mid);
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 16px 40px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-3px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold);
+    padding: 16px 40px;
+    border-radius: 4px;
+    border: 1px solid var(--gold);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover { background: rgba(201,168,76,0.1); transform: translateY(-3px); }
+
+  .gold-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 50px auto 0;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .section-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 50px;
+  }
+
+  /* VIDEO SPOTLIGHT */
+  #spotlight {
+    padding: 80px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .video-frame {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--navy-mid);
+    aspect-ratio: 9/16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .video-placeholder {
+    text-align: center;
+    color: var(--gray);
+  }
+
+  .video-placeholder .play-icon {
+    font-size: 60px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .about-text p strong { color: var(--white); font-weight: 600; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .stat-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .stat-card .number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .stat-card .label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* TOKENOMICS */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .token-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .token-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  .token-card .pct {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .token-card .token-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .token-card .token-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  .supply-box {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .supply-box .supply-label { font-size: 13px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+  .supply-box .supply-num { font-family: 'Orbitron', sans-serif; font-size: clamp(16px, 3vw, 28px); font-weight: 900; color: var(--gold); word-break: break-all; }
+
+  /* HOW TO BUY */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .step {
+    position: relative;
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .step-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.15);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+  }
+
+  .step-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .step h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .step p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* ROADMAP */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .roadmap::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), rgba(201,168,76,0.2));
+  }
+
+  .phase {
+    padding: 0 16px;
+    text-align: center;
+  }
+
+  .phase-dot {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--navy-mid);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase-dot.active {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .phase h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .phase ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  .phase ul li::before { content: '→ '; color: var(--gold); }
+
+  /* CHART */
+  .chart-container {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 24px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* COMMUNITY */
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .social-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .social-grid { grid-template-columns: 1fr; }
+  }
+
+  .social-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 40px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: block;
+  }
+
+  .social-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .social-icon { font-size: 40px; margin-bottom: 16px; display: block; }
+
+  .social-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .social-card p { font-size: 13px; color: var(--gray); }
+
+  /* CONTRACT */
+  .contract-box {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .contract-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .contract-address { font-family: monospace; font-size: 14px; color: var(--gold); word-break: break-all; }
+  .copy-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+  }
+
+  .footer-logo span { color: var(--gold); }
+  footer p { font-size: 13px; color: var(--gray); margin-bottom: 8px; }
+  .disclaimer { font-size: 11px; color: rgba(136,153,187,0.5); max-width: 600px; margin: 20px auto 0; line-height: 1.6; }
+
+  /* FULL WIDTH SECTIONS */
+  .full-width {
+    background: rgba(201,168,76,0.03);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 100px 0;
+  }
+
+  .full-width > section { padding-top: 0; padding-bottom: 0; }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .nav-cta { padding: 8px 16px; font-size: 11px; }
+    .nav-logo { font-size: 18px; }
+
+    .ticker { top: 50px; height: 30px; }
+    .ticker-inner { font-size: 10px; gap: 30px; }
+
+    #hero { padding: 110px 20px 40px; text-align: center; }
+    .hero-badge { font-size: 10px; margin-bottom: 16px; }
+    .hero-title { font-size: 52px; letter-spacing: 1px; }
+    .hero-subtitle { font-size: 13px; letter-spacing: 6px; }
+    .hero-logo-wrap { width: 280px; height: 280px; margin-left: auto; margin-right: auto; }
+    .hero-logo-wrap img { width: 280px; height: 280px; }
+    .hero-tagline { font-size: 15px; padding: 0 10px; }
+    .hero-buttons { flex-direction: column; align-items: center; gap: 12px; }
+    .btn-primary, .btn-secondary { width: 240px; text-align: center; padding: 14px 20px; }
+
+    section { padding: 60px 20px; }
+    .full-width > section { padding: 60px 20px; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 30px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-card .number { font-size: 24px; }
+
+    .token-grid { grid-template-columns: 1fr; gap: 16px; }
+    .supply-box { flex-direction: column; gap: 16px; text-align: center; }
+    .supply-num { font-size: 20px; }
+
+    .steps { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .step { padding: 20px 16px; }
+
+    .roadmap { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .roadmap::before { display: none; }
+
+    .social-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    .contract-box { flex-direction: column; gap: 12px; text-align: center; }
+    .contract-address { font-size: 11px; word-break: break-all; }
+
+    #spotlight { padding: 40px 20px 60px; }
+    .video-frame { max-width: 300px; }
+
+    .film-card { width: 160px; height: 210px; }
+
+    .section-title { font-size: 26px; }
+    .section-label { font-size: 10px; }
+
+    .chart-container { height: 280px; font-size: 12px; }
+
+    .footer-logo { font-size: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 38px; }
+    .steps { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: 1fr; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- STAR FIELD -->
+<canvas id="stars"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">X<span>-</span>MOON</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tokenomics">Tokenomics</a></li>
+    <li><a href="#howtobuy">How to Buy</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#community">Community</a></li>
+  </ul>
+  <a href="#howtobuy" class="nav-cta">Buy Now</a>
+</nav>
+
+<!-- PRICE TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <div class="ticker-item"><span class="label">X-MOON/XRP</span> <span>$0.0000XXX</span> <span class="up">▲ +XX.X%</span></div>
+    <div class="ticker-item"><span class="label">Market Cap</span> <span>$XXX,XXX</span></div>
+    <div class="ticker-item"><span class="label">Holders</span> <span>X,XXX</span></div>
+    <div class="ticker-item"><span class="label">24h Volume</span> <span>$XX,XXX</span></div>
+    <div class="ticker-item"><span class="label">Network</span> <span>XRPL</span></div>
+    <div class="ticker-item"><span class="label">TX Speed</span> <span>3 Seconds</span></div>
+    <div class="ticker-item"><span class="label">X-MOON/XRP</span> <span>$0.0000XXX</span> <span class="up">▲ +XX.X%</span></div>
+    <div class="ticker-item"><span class="label">Market Cap</span> <span>$XXX,XXX</span></div>
+    <div class="ticker-item"><span class="label">Holders</span> <span>X,XXX</span></div>
+    <div class="ticker-item"><span class="label">24h Volume</span> <span>$XX,XXX</span></div>
+    <div class="ticker-item"><span class="label">Network</span> <span>XRPL</span></div>
+    <div class="ticker-item"><span class="label">TX Speed</span> <span>3 Seconds</span></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">🚀 Now Live on XRPL</div>
+  <h1 class="hero-title">X-MOON</h1>
+  <div class="hero-subtitle">X &nbsp; R &nbsp; P &nbsp; L</div>
+  <div class="hero-logo-wrap">
+    <img src="LOGO.png" alt="X-MOON Logo">
+  </div>
+  <p class="hero-tagline">The memecoin the XRP Ledger deserves. Fast. Final. On-chain. Built by the community, for the community.</p>
+  <div class="hero-buttons">
+    <a href="#howtobuy" class="btn-primary">Buy X-MOON</a>
+    <a href="#about" class="btn-secondary">Learn More</a>
+  </div>
+  <div class="gold-line"></div>
+</section>
+
+<!-- VIDEO SPOTLIGHT -->
+<div id="spotlight" style="text-align:center; padding: 40px 60px 60px;">
+  <div class="section-label" style="margin-bottom:12px;">Daily Spotlight</div>
+  <h2 class="section-title" style="margin-bottom:40px;">X-MOON in Action</h2>
+  <div class="video-frame">
+    <video id="daily-video" autoplay muted loop playsinline
+      style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+      <source id="daily-video-src" src="" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="full-width" id="about">
+  <section>
+    <div class="section-label">What is X-MOON</div>
+    <h2 class="section-title">To The Moon. Together.</h2>
+    <div class="section-divider"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>X-MOON is the <strong>memecoin the XRPL deserves</strong>. Born on the fastest, cheapest blockchain on the planet, X-MOON combines community energy with real infrastructure.</p>
+        <p>While other memecoins are stuck waiting for confirmations, <strong>X-MOON settles in 3 seconds</strong> for fractions of a cent. That's not a promise — that's the XRP Ledger.</p>
+        <p>Our crew grows every day. Early holders. True believers. All pointed in the same direction — <strong>up</strong>.</p>
+        <a href="#howtobuy" class="btn-primary" style="display:inline-block; margin-top:20px;">Join the Mission</a>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="number">3s</span>
+          <span class="label">Settlement Time</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">$0.00</span>
+          <span class="label">Gas Fees</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">X,XXX</span>
+          <span class="label">Holders</span>
+        </div>
+        <div class="stat-card">
+          <span class="number">10Y+</span>
+          <span class="label">XRPL Uptime</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CHART -->
+<section id="chart" style="padding-bottom:40px;">
+  <div class="section-label">Live Price</div>
+  <h2 class="section-title">X-MOON Chart</h2>
+  <div class="section-divider"></div>
+  <div class="chart-container">
+    [ DEXscreener Chart Embed — Live Price &amp; Volume ]
+  </div>
+  <div class="contract-box" style="margin-top:24px;">
+    <div>
+      <div class="contract-label">Contract Address — XRPL</div>
+      <div class="contract-address">[ XRPL Token Address Will Appear Here ]</div>
+    </div>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('address')">Copy</button>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<div class="full-width" id="tokenomics">
+  <section>
+    <div class="section-label">Distribution</div>
+    <h2 class="section-title">Tokenomics</h2>
+    <div class="section-divider"></div>
+    <div class="token-grid">
+      <div class="token-card">
+        <span class="pct">70%</span>
+        <span class="token-label">Liquidity Pool</span>
+        <span class="token-desc">Locked. Burns with the ledger. Ensures trading depth and stability.</span>
+      </div>
+      <div class="token-card">
+        <span class="pct">20%</span>
+        <span class="token-label">Community</span>
+        <span class="token-desc">Airdrops, rewards, and giveaways to early believers and holders.</span>
+      </div>
+      <div class="token-card">
+        <span class="pct">10%</span>
+        <span class="token-label">Team & Marketing</span>
+        <span class="token-desc">Fueling growth, partnerships, exchange listings, and content.</span>
+      </div>
+    </div>
+    <div class="supply-box">
+      <div>
+        <div class="supply-label">Total Supply</div>
+        <div class="supply-num">1,000,000,000 XMOON</div>
+      </div>
+      <div>
+        <div class="supply-label">Network</div>
+        <div class="supply-num" style="font-size:20px;">XRP Ledger</div>
+      </div>
+      <div>
+        <div class="supply-label">LP Status</div>
+        <div class="supply-num" style="font-size:20px; color:#4cff8c;">Locked 🔒</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- HOW TO BUY -->
+<section id="howtobuy">
+  <div class="section-label">Get Started</div>
+  <h2 class="section-title">How to Buy X-MOON</h2>
+  <div class="section-divider"></div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <span class="step-icon">🔐</span>
+      <h3>Get a Wallet</h3>
+      <p>Download Xumm or Crossmark wallet. Create your XRPL account and secure your seed phrase.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <span class="step-icon">💰</span>
+      <h3>Get XRP</h3>
+      <p>Buy XRP on any major exchange. Send it to your XRPL wallet. You need at least 10 XRP reserve.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <span class="step-icon">🔗</span>
+      <h3>Set Trustline</h3>
+      <p>Add the X-MOON trustline in your wallet using our contract address. One click, done.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <span class="step-icon">🚀</span>
+      <h3>Swap & Hold</h3>
+      <p>Go to XRPL DEX or Sologenic. Swap XRP for X-MOON. Welcome to the crew.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<div class="full-width" id="roadmap">
+  <section>
+    <div class="section-label">The Plan</div>
+    <h2 class="section-title">Roadmap</h2>
+    <div class="section-divider"></div>
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-dot active">1</div>
+        <h3>Launch</h3>
+        <ul>
+          <li>Token creation</li>
+          <li>Website live</li>
+          <li>Socials active</li>
+          <li>Community launch</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">2</div>
+        <h3>Growth</h3>
+        <ul>
+          <li>1,000 holders</li>
+          <li>DEX listings</li>
+          <li>Content push</li>
+          <li>Influencer reach</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">3</div>
+        <h3>Expansion</h3>
+        <ul>
+          <li>CEX listings</li>
+          <li>10,000 holders</li>
+          <li>Partnerships</li>
+          <li>Merchandise</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-dot">4</div>
+        <h3>Moon</h3>
+        <ul>
+          <li>Major exchange</li>
+          <li>100K+ holders</li>
+          <li>X-MOON ecosystem</li>
+          <li>To the moon 🚀</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="section-label">Join Us</div>
+  <h2 class="section-title">The Crew</h2>
+  <div class="section-divider"></div>
+  <div class="social-grid">
+    <a href="https://x.com/XMOON_XRPL" target="_blank" class="social-card">
+      <span class="social-icon">𝕏</span>
+      <h3>Twitter / X</h3>
+      <p>Daily updates, memes, and market moves. Follow the crew.</p>
+    </a>
+    <a href="https://t.me/xmoonxrpl" target="_blank" class="social-card">
+      <span class="social-icon">✈️</span>
+      <h3>Telegram</h3>
+      <p>Join the community. Live chat, announcements, and alpha.</p>
+    </a>
+    <a href="https://www.tiktok.com/@xmoon_xrpl" target="_blank" class="social-card">
+      <span class="social-icon">🎵</span>
+      <h3>TikTok</h3>
+      <p>Daily reels, charts, and X-MOON content dropping every day.</p>
+    </a>
+    <a href="https://www.instagram.com/xmoonxrpl" target="_blank" class="social-card">
+      <span class="social-icon">📸</span>
+      <h3>Instagram</h3>
+      <p>Visual content, announcements, and community highlights.</p>
+    </a>
+    <a href="https://www.youtube.com/@XmoonXRPL" target="_blank" class="social-card">
+      <span class="social-icon">▶️</span>
+      <h3>YouTube</h3>
+      <p>Long form content, explainers, and X-MOON video library.</p>
+    </a>
+  </div>
+</section>
+
+<!-- FILMSTRIP -->
+<div style="padding: 60px 0; border-top: 1px solid rgba(201,168,76,0.15); border-bottom: 1px solid rgba(201,168,76,0.15); background: rgba(201,168,76,0.03); position:relative; z-index:1; overflow:hidden;">
+  <div style="font-size:11px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:30px;">X-MOON Universe</div>
+  <div style="position:relative; width:100%; overflow:hidden;">
+    <div id="filmstrip-track" style="display:flex; gap:20px; transition: transform 0.8s ease; will-change:transform;"></div>
+  </div>
+</div>
+
+<style>
+  .film-card {
+    width: 220px;
+    height: 280px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid rgba(201,168,76,0.25);
+    overflow: hidden;
+    background: var(--navy-mid);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .film-card.active {
+    border-color: var(--gold);
+    transform: scale(1.05);
+  }
+  .film-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">X<span>-</span>MOON</div>
+  <p style="color:var(--gold); letter-spacing:3px; font-size:12px; margin-bottom:20px;">X R P L</p>
+  <p>To The Moon. Together.</p>
+  <p class="disclaimer">X-MOON is a community memecoin on the XRP Ledger. This is not financial advice. Cryptocurrency investments carry significant risk. Always do your own research. Never invest more than you can afford to lose.</p>
+</footer>
+
+<script>
+  // Star field
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '0';
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const stars = [];
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.5 + 0.3,
+      speed: Math.random() * 0.003 + 0.001,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  requestAnimationFrame(drawStars);
+
+  // Load manifest and populate video + filmstrip
+  fetch('manifest.json')
+    .then(r => r.json())
+    .then(data => {
+
+      // DAILY VIDEO — pick based on day of year so it changes every 24hrs
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      const videoIndex = dayOfYear % data.videos.length;
+      const videoSrc = 'videos/' + data.videos[videoIndex];
+      const videoEl = document.getElementById('daily-video');
+      document.getElementById('daily-video-src').src = videoSrc;
+      videoEl.load();
+
+      // FILMSTRIP — step-based slider, holds each image then slides
+      const track = document.getElementById('filmstrip-track');
+      const cardWidth = 240; // card + gap
+      const visibleCount = Math.floor(window.innerWidth / cardWidth);
+      const holdTime = 3000; // 3 seconds per step
+
+      // Build cards
+      data.images.forEach(img => {
+        const card = document.createElement('div');
+        card.className = 'film-card';
+        const image = document.createElement('img');
+        image.src = 'images/' + img;
+        image.alt = 'X-MOON';
+        image.loading = 'lazy';
+        card.appendChild(image);
+        track.appendChild(card);
+      });
+
+      const cards = track.querySelectorAll('.film-card');
+      let currentIndex = 0;
+
+      function slideNext() {
+        cards.forEach(c => c.classList.remove('active'));
+        currentIndex = (currentIndex + 1) % cards.length;
+        cards[currentIndex].classList.add('active');
+        const offset = currentIndex * cardWidth - (window.innerWidth / 2) + (cardWidth / 2);
+        track.style.transform = `translateX(-${Math.max(0, offset)}px)`;
+      }
+
+      cards[0].classList.add('active');
+      setInterval(slideNext, holdTime);
+
+    })
+    .catch(err => console.log('Manifest not found:', err));
+
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.token-card, .step, .phase, .social-card, .stat-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
