@@ -144,7 +144,7 @@ section { position:relative; z-index:1; padding:100px 60px; max-width:1200px; ma
 .copy-btn { background:var(--gold); color:var(--navy); border:none; padding:10px 24px; border-radius:4px; font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; cursor:pointer; white-space:nowrap; text-transform:uppercase; }
 
 /* TOKENOMICS */
-.token-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:40px; }
+.token-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-bottom:40px; }
 @keyframes card-glow { 0%,100%{box-shadow:0 0 8px rgba(201,168,76,0.2),inset 0 0 8px rgba(201,168,76,0.05)} 50%{box-shadow:0 0 25px rgba(201,168,76,0.6),inset 0 0 15px rgba(201,168,76,0.1)} }
 .token-card { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.2); border-radius:8px; padding:32px 24px; text-align:center; transition:all .3s; animation:card-glow 3s ease-in-out infinite; }
 .token-card:hover { border-color:var(--gold); transform:translateY(-4px); box-shadow:0 0 25px rgba(201,168,76,0.4); }
@@ -173,6 +173,20 @@ section { position:relative; z-index:1; padding:100px 60px; max-width:1200px; ma
 .phase h3 { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; color:var(--white); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; }
 .phase ul { list-style:none; font-size:12px; color:var(--gray); line-height:1.9; }
 .phase ul li::before { content:'→ '; color:var(--gold); }
+
+/* GAME */
+.game-badge { display:inline-block; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.4); color:var(--gold); font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:6px 20px; border-radius:20px; margin-bottom:24px; }
+.game-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.game-text p { font-size:16px; font-weight:300; color:var(--gray); line-height:1.8; margin-bottom:18px; }
+.game-text p strong { color:var(--white); font-weight:600; }
+.game-panel { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.25); border-radius:8px; padding:32px; animation:card-glow 3s ease-in-out infinite; }
+.game-panel h3 { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; color:var(--gold); letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; }
+.game-steps { list-style:none; }
+.game-steps li { display:flex; gap:14px; align-items:flex-start; font-size:14px; color:var(--gray); line-height:1.6; margin-bottom:18px; }
+.game-steps li:last-child { margin-bottom:0; }
+.game-steps .g-num { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1px solid var(--gold); color:var(--gold); font-family:'Orbitron',sans-serif; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; }
+.game-steps span.desc strong { color:var(--white); font-weight:600; }
+.game-note { margin-top:24px; padding-top:20px; border-top:1px solid rgba(201,168,76,0.15); font-size:12px; color:var(--gray); line-height:1.6; }
 
 /* SOCIALS */
 .social-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
@@ -235,6 +249,9 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
   .roadmap::before { display: none; }
   .roadmap-scroll { overflow-x: auto; }
 
+  .game-grid { grid-template-columns: 1fr; gap: 30px; }
+  .game-panel { padding: 24px; }
+
   .social-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
 
   .contract-box { flex-direction: column; text-align: center; }
@@ -267,6 +284,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
     <li><a href="#tokenomics">Tokenomics</a></li>
     <li><a href="#howtobuy">How to Buy</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#game">Game</a></li>
     <li><a href="#community">Community</a></li>
   </ul>
   <a href="#howtobuy" class="nav-cta">Buy Now</a>
@@ -279,6 +297,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
   <a href="#tokenomics" onclick="document.getElementById('mobile-menu').classList.remove('open')" style="color:var(--white);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.1);">Tokenomics</a>
   <a href="#howtobuy" onclick="document.getElementById('mobile-menu').classList.remove('open')" style="color:var(--white);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.1);">How to Buy</a>
   <a href="#roadmap" onclick="document.getElementById('mobile-menu').classList.remove('open')" style="color:var(--white);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.1);">Roadmap</a>
+  <a href="#game" onclick="document.getElementById('mobile-menu').classList.remove('open')" style="color:var(--white);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.1);">Game</a>
   <a href="#community" onclick="document.getElementById('mobile-menu').classList.remove('open')" style="color:var(--white);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 0;">Community</a>
 </div>
 
@@ -373,19 +392,24 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
     <div class="sec-div"></div>
     <div class="token-grid">
       <div class="token-card reveal">
-        <span class="pct">70%</span>
-        <span class="tlbl">Liquidity Pool</span>
-        <span class="tdesc">Locked. Burns with the ledger. X-MOON doesn't rug — that's not how I roll.</span>
+        <span class="pct">60%</span>
+        <span class="tlbl">Public</span>
+        <span class="tdesc">The float. Yours from day one — no hidden allocation standing between you and the ledger.</span>
       </div>
       <div class="token-card reveal">
-        <span class="pct">20%</span>
-        <span class="tlbl">The Crew</span>
-        <span class="tdesc">Airdrops, rewards, and giveaways for early believers. The crew eats first.</span>
+        <span class="pct">15%</span>
+        <span class="tlbl">Team</span>
+        <span class="tdesc">The crew building it. Allocated to the founding team behind X-MOON.</span>
       </div>
       <div class="token-card reveal">
         <span class="pct">10%</span>
-        <span class="tlbl">Mission Fuel</span>
-        <span class="tdesc">Marketing, exchange listings, partnerships. Every rocket needs fuel.</span>
+        <span class="tlbl">Game Dev &amp; Treasury</span>
+        <span class="tdesc">Fuels Moon Runner's development and its in-game reward treasury.</span>
+      </div>
+      <div class="token-card reveal">
+        <span class="pct">15%</span>
+        <span class="tlbl">Marketing (Escrow)</span>
+        <span class="tdesc">Locked in escrow with scheduled unlocks — no surprise dumps.</span>
       </div>
     </div>
     <div class="supply-box">
@@ -445,6 +469,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
             <li>Website live</li>
             <li>Socials active</li>
             <li>Crew assembled</li>
+            <li>Game pre-development</li>
           </ul>
         </div>
         <div class="phase">
@@ -455,6 +480,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
             <li>DEX listings</li>
             <li>Content push</li>
             <li>Influencer reach</li>
+            <li>Game development</li>
           </ul>
         </div>
         <div class="phase">
@@ -465,6 +491,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
             <li>10,000 holders</li>
             <li>Partnerships</li>
             <li>Merchandise</li>
+            <li>Game launch</li>
           </ul>
         </div>
         <div class="phase">
@@ -481,6 +508,29 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
     </div>
   </section>
 </div>
+
+<!-- GAME -->
+<section id="game">
+  <div class="sec-label">Utility</div>
+  <div class="game-badge">🚧 Coming Soon</div>
+  <h2 class="sec-title">Moon Runner</h2>
+  <div class="sec-div"></div>
+  <div class="game-grid">
+    <div class="game-text">
+      <p><strong>Moon Runner</strong> — coming soon. Pilot X-MOON's ship through an asteroid field, dodge debris, and collect coins along the way. Connect your wallet, put a little X-MOON on the line, and see how far skill can take you. The more coins you collect, the more X-MOON you can win back.</p>
+    </div>
+    <div class="game-panel">
+      <h3>How It'll Work</h3>
+      <ul class="game-steps">
+        <li><span class="g-num">1</span><span class="desc"><strong>Connect your wallet.</strong> Xaman/Xumm, XRPL native. No sign-ups, no custody handovers.</span></li>
+        <li><span class="g-num">2</span><span class="desc"><strong>Hold & pay a small entry fee</strong> in X-MOON to launch a run.</span></li>
+        <li><span class="g-num">3</span><span class="desc"><strong>Dodge & collect.</strong> Steer through asteroids, grab coins, survive as long as you can.</span></li>
+        <li><span class="g-num">4</span><span class="desc"><strong>Score = payout.</strong> The more coins you bank, the bigger your shot at winning X-MOON back.</span></li>
+      </ul>
+      <div class="game-note">Skill-based, mobile-first, built for the crew. Details on entry cost and payout tiers drop closer to launch — follow the socials below so you don't miss it.</div>
+    </div>
+  </div>
+</section>
 
 <!-- COMMUNITY -->
 <section id="community">
