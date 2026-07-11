@@ -138,8 +138,15 @@ section { position:relative; z-index:1; padding:100px 60px; max-width:1200px; ma
 .stat-card .lbl { font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--gray); }
 
 /* CHART */
-.chart-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.2); border-radius:8px; padding:0; height:500px; overflow:hidden; animation:card-glow 3s ease-in-out infinite; }
-.chart-box iframe { width:100%; height:100%; border:0; }
+.chart-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.2); border-radius:8px; padding:40px; display:flex; align-items:center; justify-content:center; animation:card-glow 3s ease-in-out infinite; }
+.chart-live { text-align:center; }
+.chart-live-price { font-family:'Orbitron',sans-serif; font-size:clamp(28px,4vw,42px); font-weight:900; color:var(--gold); }
+.chart-live-change { font-size:14px; font-weight:600; color:#4cff8c; margin-top:6px; margin-bottom:24px; }
+.chart-live-change.down { color:#ff6b6b; }
+.chart-live-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:10px; }
+.chart-live-grid div { display:flex; flex-direction:column; gap:4px; }
+.cl-lbl { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); }
+.chart-live-grid span:not(.cl-lbl) { font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700; color:var(--white); }
 .contract-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.3); border-radius:8px; padding:20px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-top:20px; animation:card-glow 3s ease-in-out infinite 0.5s; }
 .contract-lbl { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
 .contract-addr { font-family:monospace; font-size:14px; color:var(--gold); word-break:break-all; }
@@ -238,8 +245,6 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
   #spotlight { padding: 40px 20px 60px; }
   .video-frame { max-width: 300px; }
 
-  .chart-box { height: 380px; }
-
   .about-grid { grid-template-columns: 1fr; gap: 30px; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .stat-card .num { font-size: 24px; }
@@ -256,6 +261,9 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
 
   .game-grid { grid-template-columns: 1fr; gap: 30px; }
   .game-panel { padding: 24px; }
+
+  .chart-live-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .chart-box { padding: 24px 16px; }
 
   .social-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
 
@@ -308,17 +316,17 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
 
 <!-- TICKER -->
 <div class="ticker">
-  <div class="ticker-track">
-    <div class="t-item"><span class="lbl">X-MOON/XRP</span><span>$0.0000XXX</span><span class="up">▲ +XX.X%</span></div>
-    <div class="t-item"><span class="lbl">Market Cap</span><span>$XXX,XXX</span></div>
-    <div class="t-item"><span class="lbl">Holders</span><span>X,XXX</span></div>
-    <div class="t-item"><span class="lbl">24h Volume</span><span>$XX,XXX</span></div>
+  <div class="ticker-track" id="ticker-track">
+    <div class="t-item"><span class="lbl">X-MOON/XRP</span><span class="live-price">$0.0000XXX</span><span class="up live-change">▲ +XX.X%</span></div>
+    <div class="t-item"><span class="lbl">Market Cap</span><span class="live-mcap">$XXX,XXX</span></div>
+    <div class="t-item"><span class="lbl">Liquidity</span><span class="live-liq">$XX,XXX</span></div>
+    <div class="t-item"><span class="lbl">24h Volume</span><span class="live-vol">$XX,XXX</span></div>
     <div class="t-item"><span class="lbl">Network</span><span>XRPL</span></div>
     <div class="t-item"><span class="lbl">TX Speed</span><span>3 Seconds</span></div>
-    <div class="t-item"><span class="lbl">X-MOON/XRP</span><span>$0.0000XXX</span><span class="up">▲ +XX.X%</span></div>
-    <div class="t-item"><span class="lbl">Market Cap</span><span>$XXX,XXX</span></div>
-    <div class="t-item"><span class="lbl">Holders</span><span>X,XXX</span></div>
-    <div class="t-item"><span class="lbl">24h Volume</span><span>$XX,XXX</span></div>
+    <div class="t-item"><span class="lbl">X-MOON/XRP</span><span class="live-price">$0.0000XXX</span><span class="up live-change">▲ +XX.X%</span></div>
+    <div class="t-item"><span class="lbl">Market Cap</span><span class="live-mcap">$XXX,XXX</span></div>
+    <div class="t-item"><span class="lbl">Liquidity</span><span class="live-liq">$XX,XXX</span></div>
+    <div class="t-item"><span class="lbl">24h Volume</span><span class="live-vol">$XX,XXX</span></div>
     <div class="t-item"><span class="lbl">Network</span><span>XRPL</span></div>
     <div class="t-item"><span class="lbl">TX Speed</span><span>3 Seconds</span></div>
   </div>
@@ -379,7 +387,18 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
   <div class="sec-label">Live Price</div>
   <h2 class="sec-title">X-MOON Chart</h2>
   <div class="sec-div"></div>
-  <div class="chart-box"><iframe src="https://dexscreener.com/xrpl/xmn.rbstmbuymqsramtmyckkpdtasas7kka99j_xrp?embed=1&theme=dark&trades=0&info=0" title="X-MOON DEXScreener Chart" loading="lazy"></iframe></div>
+  <div class="chart-box">
+    <div class="chart-live">
+      <div class="chart-live-price" id="chart-price">$0.0000000</div>
+      <div class="chart-live-change" id="chart-change">▲ 0.00% (24h)</div>
+      <div class="chart-live-grid">
+        <div><span class="cl-lbl">Liquidity</span><span id="chart-liq">—</span></div>
+        <div><span class="cl-lbl">Market Cap</span><span id="chart-mcap">—</span></div>
+        <div><span class="cl-lbl">24h Volume</span><span id="chart-vol">—</span></div>
+      </div>
+      <a href="https://dexscreener.com/xrpl/xmn.rbstmbuymqsramtmyckkpdtasas7kka99j_xrp" target="_blank" class="btn-primary" style="display:inline-block;margin-top:10px;">View Full Chart on DEXScreener</a>
+    </div>
+  </div>
   <div class="contract-box">
     <div>
       <div class="contract-lbl">Contract Address — XRPL</div>
@@ -418,7 +437,7 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
       </div>
     </div>
     <div class="supply-box">
-      <div><div class="supply-lbl">Total Supply</div><div class="supply-num">1,000,000,000 XMOON</div></div>
+      <div><div class="supply-lbl">Total Supply</div><div class="supply-num">10,000,000 XMOON</div></div>
       <div><div class="supply-lbl">Network</div><div class="supply-num">XRP Ledger</div></div>
       <div><div class="supply-lbl">LP Status</div><div class="supply-num" style="color:#4cff8c;">Locked 🔒</div></div>
     </div>
@@ -617,7 +636,58 @@ const observer = new IntersectionObserver(entries => {
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Manifest — video + filmstrip
+// Live X-MOON data from DEXScreener API
+async function loadLiveData() {
+  try {
+    const res = await fetch('https://api.dexscreener.com/token-pairs/v1/xrpl/XMN.rBStMbUYmqSraMTMYCkKpdTasAs7kKa99j');
+    const data = await res.json();
+    const pair = Array.isArray(data) ? data[0] : (data.pairs ? data.pairs[0] : null);
+    if (!pair) return;
+
+    const priceUsd = parseFloat(pair.priceUsd);
+    const change24 = pair.priceChange && typeof pair.priceChange.h24 === 'number' ? pair.priceChange.h24 : null;
+    const liq = pair.liquidity && pair.liquidity.usd ? pair.liquidity.usd : null;
+    const mcap = pair.marketCap || pair.fdv || null;
+    const vol24 = pair.volume && pair.volume.h24 ? pair.volume.h24 : null;
+
+    const fmtUsd = (n) => n >= 1000 ? '$' + Math.round(n).toLocaleString() : '$' + n.toFixed(2);
+    const fmtPrice = (n) => '$' + n.toFixed(7);
+
+    const priceStr = fmtUsd ? fmtPrice(priceUsd) : '$0.0000000';
+    const changeStr = change24 !== null ? (change24 >= 0 ? '▲ +' : '▼ ') + change24.toFixed(1) + '%' : '—';
+
+    // Ticker (both looped copies share these classes)
+    document.querySelectorAll('.live-price').forEach(el => el.textContent = priceStr);
+    document.querySelectorAll('.live-change').forEach(el => {
+      el.textContent = changeStr;
+      el.style.color = (change24 !== null && change24 < 0) ? '#ff6b6b' : '#4cff8c';
+    });
+    document.querySelectorAll('.live-mcap').forEach(el => el.textContent = mcap ? fmtUsd(mcap) : '—');
+    document.querySelectorAll('.live-liq').forEach(el => el.textContent = liq ? fmtUsd(liq) : '—');
+    document.querySelectorAll('.live-vol').forEach(el => el.textContent = vol24 ? fmtUsd(vol24) : '—');
+
+    // Chart panel
+    const chartPrice = document.getElementById('chart-price');
+    const chartChange = document.getElementById('chart-change');
+    const chartLiq = document.getElementById('chart-liq');
+    const chartMcap = document.getElementById('chart-mcap');
+    const chartVol = document.getElementById('chart-vol');
+    if (chartPrice) chartPrice.textContent = priceStr;
+    if (chartChange) {
+      chartChange.textContent = (change24 !== null ? changeStr : '—') + ' (24h)';
+      chartChange.classList.toggle('down', change24 !== null && change24 < 0);
+    }
+    if (chartLiq) chartLiq.textContent = liq ? fmtUsd(liq) : '—';
+    if (chartMcap) chartMcap.textContent = mcap ? fmtUsd(mcap) : '—';
+    if (chartVol) chartVol.textContent = vol24 ? fmtUsd(vol24) : '—';
+  } catch (e) {
+    console.log('Live data fetch failed:', e);
+  }
+}
+loadLiveData();
+setInterval(loadLiveData, 60000);
+
+
 fetch('manifest.json')
   .then(r => r.json())
   .then(data => {
