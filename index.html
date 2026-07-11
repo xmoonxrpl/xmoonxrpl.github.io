@@ -138,7 +138,8 @@ section { position:relative; z-index:1; padding:100px 60px; max-width:1200px; ma
 .stat-card .lbl { font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--gray); }
 
 /* CHART */
-.chart-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.2); border-radius:8px; padding:24px; height:400px; display:flex; align-items:center; justify-content:center; color:var(--gray); font-size:14px; letter-spacing:1px; animation:card-glow 3s ease-in-out infinite; }
+.chart-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.2); border-radius:8px; padding:0; height:500px; overflow:hidden; animation:card-glow 3s ease-in-out infinite; }
+.chart-box iframe { width:100%; height:100%; border:0; }
 .contract-box { background:var(--navy-mid); border:1px solid rgba(201,168,76,0.3); border-radius:8px; padding:20px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-top:20px; animation:card-glow 3s ease-in-out infinite 0.5s; }
 .contract-lbl { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
 .contract-addr { font-family:monospace; font-size:14px; color:var(--gold); word-break:break-all; }
@@ -236,6 +237,8 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
 
   #spotlight { padding: 40px 20px 60px; }
   .video-frame { max-width: 300px; }
+
+  .chart-box { height: 380px; }
 
   .about-grid { grid-template-columns: 1fr; gap: 30px; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -376,13 +379,13 @@ footer { position:relative; z-index:1; text-align:center; padding:60px 40px; bor
   <div class="sec-label">Live Price</div>
   <h2 class="sec-title">X-MOON Chart</h2>
   <div class="sec-div"></div>
-  <div class="chart-box">[ DEXscreener Chart — Live after token launch ]</div>
+  <div class="chart-box"><iframe src="https://dexscreener.com/xrpl/xmn.rbstmbuymqsramtmyckkpdtasas7kka99j_xrp?embed=1&theme=dark&trades=0&info=0" title="X-MOON DEXScreener Chart" loading="lazy"></iframe></div>
   <div class="contract-box">
     <div>
       <div class="contract-lbl">Contract Address — XRPL</div>
-      <div class="contract-addr">[ Token address after launch ]</div>
+      <div class="contract-addr" id="ca-text">rBStMbUYmqSraMTMYCkKpdTasAs7kKa99j</div>
     </div>
-    <button class="copy-btn" onclick="navigator.clipboard.writeText('address')">Copy</button>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('rBStMbUYmqSraMTMYCkKpdTasAs7kKa99j')">Copy</button>
   </div>
 </section>
 
